@@ -5,6 +5,7 @@ import AppError from 'utils/appError'
 
 const currentUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    // access token convert into user identity
     next()
   } catch (error) {
     res.status(httpStatus.UNAUTHORIZED).json({ error: error.message })
