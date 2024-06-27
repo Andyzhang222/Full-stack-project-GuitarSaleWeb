@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
 import awsconfig from '../aws-exports';
-import { Avatar, Box, Button, Checkbox, Container, CssBaseline, FormControlLabel, Grid, Link, TextField, Typography } from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { Box, Button, Checkbox, Container, CssBaseline, FormControlLabel, Grid, Link, TextField, Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -61,11 +60,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
+          <Typography component="h1" variant="h4">
+            Welcome to Fantasy
+          </Typography>
+          <Typography component="h2" variant="h6" sx={{ mb: 3 }}>
+            Welcome Back! Please enter your details.
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -73,7 +72,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
               required
               fullWidth
               id="username"
-              label="Username"
+              label="Email"
               name="username"
               autoComplete="username"
               autoFocus
@@ -103,6 +102,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
               sx={{ mt: 3, mb: 2 }}
             >
               Sign In
+            </Button>
+            <Button
+              type="button"
+              fullWidth
+              variant="outlined"
+              sx={{ mt: 1, mb: 2 }}
+            >
+              Continue as a guest
             </Button>
             {message && <Typography color="error" variant="body2">{message}</Typography>}
             <Grid container>
