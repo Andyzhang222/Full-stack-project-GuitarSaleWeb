@@ -12,7 +12,6 @@ const theme = createTheme();
 
 const RegisterForm: React.FC = () => {
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -21,7 +20,7 @@ const RegisterForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setMessage(''); // 清除之前的消息
+    setMessage(''); 
     if (password !== confirmPassword) {
       setMessage('Passwords do not match.');
       return;
@@ -30,7 +29,6 @@ const RegisterForm: React.FC = () => {
       await Auth.signUp({
         username,
         password,
-        attributes: { email },
       });
       setSuccessMessage('User registered successfully!');
       setTimeout(() => {
@@ -76,17 +74,6 @@ const RegisterForm: React.FC = () => {
               autoFocus
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email"
-              name="email"
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"

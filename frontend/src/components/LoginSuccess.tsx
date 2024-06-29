@@ -9,7 +9,7 @@ const LoginSuccess: React.FC = () => {
   const handleLogout = async () => {
     try {
       await Auth.signOut();
-      navigate('/'); // 重定向到主页面
+      navigate('/'); 
     } catch (error) {
       console.error('Error signing out: ', error);
     }

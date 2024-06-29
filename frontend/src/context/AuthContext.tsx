@@ -1,34 +1,52 @@
-// src/context/AuthContext.tsx
+// Import necessary libraries and hooks
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Auth, Hub } from 'aws-amplify';
 
+// Define the User interface to specify the shape of the user object
+interface User {
+  username: string;
+  email: string;
+}
+
+// Define the AuthContextProps interface to specify the shape of the context value
 interface AuthContextProps {
   isAuthenticated: boolean;
-  user: any; // 你可以根据实际用户数据类型替换 `any`
+  user: User | null; 
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
+// Create the AuthContext with an initial undefined value
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
+// Define the AuthProvider component
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // State to track if the user is authenticated
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [user, setUser] = useState<any>(null);
+  // State to hold the user object
+  const [user, setUser] = useState<User | null>(null);
 
+  // Function to check the current user session
   const checkUserSession = async () => {
     try {
-      const session = await Auth.currentSession();
+      // Get the current authenticated user
+      const currentUser = await Auth.currentAuthenticatedUser();
       setIsAuthenticated(true);
-      setUser(session);
+      setUser({
+        username: currentUser.username,
+        email: currentUser.attributes.email,
+      });
     } catch {
       setIsAuthenticated(false);
       setUser(null);
     }
   };
 
+  // useEffect hook to check the user session on component mount and set up event listeners
   useEffect(() => {
     checkUserSession();
 
+    // Listen for authentication events
     Hub.listen('auth', ({ payload: { event } }) => {
       if (event === 'signIn') {
         checkUserSession();
@@ -39,17 +57,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   }, []);
 
+  // Function to handle user login
   const login = async (username: string, password: string) => {
     await Auth.signIn(username, password);
     await checkUserSession();
   };
 
+  // Function to handle user logout
   const logout = async () => {
     await Auth.signOut();
     setIsAuthenticated(false);
     setUser(null);
   };
 
+  // Provide the authentication context to children components
   return (
     <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
       {children}
@@ -57,6 +78,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
+// Custom hook to use the AuthContext
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

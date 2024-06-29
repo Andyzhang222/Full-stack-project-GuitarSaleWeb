@@ -1,24 +1,24 @@
+// Import necessary libraries and configurations
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import awsconfig from './aws-exports';
 import App from './App';
 import './index.css';
 
-// 使用全局变量 window.Amplify
+// Configure AWS Amplify when DOM content is loaded
 document.addEventListener('DOMContentLoaded', function() {
   if (window.Amplify) {
-    const Amplify = window.Amplify;
-    Amplify.configure(awsconfig);
+    window.Amplify.configure(awsconfig);
     console.log('Amplify configured in index.tsx');
   } else {
     console.error('Failed to load AWS Amplify in index.tsx');
   }
 });
 
+// Get root container and render the App component
 const container = document.getElementById('root');
 if (container) {
-  const root = createRoot(container);
-  root.render(
+  createRoot(container).render(
     <React.StrictMode>
       <App />
     </React.StrictMode>

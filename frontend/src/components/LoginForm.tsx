@@ -6,30 +6,35 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+// Configure AWS Amplify
 Auth.configure(awsconfig);
 
+// Create a theme for MUI
 const theme = createTheme();
 
 interface LoginFormProps {
   closeModal: () => void;
 }
 
+// LoginForm component
 const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const navigate = useNavigate(); // 添加 useNavigate 钩子
+  const navigate = useNavigate(); // Add useNavigate hook for navigation
 
+  // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setMessage(''); // 清除之前的消息
+    setMessage(''); // Clear previous messages
     try {
       const user = await Auth.signIn(username, password);
       const idToken = user.signInUserSession.idToken.jwtToken;
       const accessToken = user.signInUserSession.accessToken.jwtToken;
       const refreshToken = user.signInUserSession.refreshToken.token;
 
-      // 发送 token 到后端
+
+      // Send tokens to the backend
       await axios.post('http://localhost:3001/login', {
         idToken,
         accessToken,
@@ -37,9 +42,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ closeModal }) => {
       });
 
       setMessage('User logged in successfully!');
-      closeModal(); // 关闭模态窗口并跳转回主页面
+      closeModal(); // Close modal and redirect to the main page
 
-      // 重定向到登录成功页面
+      // Redirect to login success page
       navigate('/login-success');
     } catch (error: unknown) {
       if (error instanceof Error) {

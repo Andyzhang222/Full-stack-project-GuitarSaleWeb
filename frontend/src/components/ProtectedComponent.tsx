@@ -5,7 +5,6 @@ const ProtectedComponent: React.FC = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // 假设你已经有用户的token
     const token = localStorage.getItem('authToken');
 
     if (!token) {

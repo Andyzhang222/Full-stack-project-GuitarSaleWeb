@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
-import homepageGuitar from '../image/homepageGuitar.jpg'; // 导入图片
+import homepageGuitar from '../image/homepageGuitar.jpg'; 
 
 const closeModal = () => {
   console.log('Modal closed');
@@ -17,32 +17,32 @@ const MainPage: React.FC = () => {
       sx={{ 
         display: 'flex', 
         height: '100vh', 
-        width: '100vw', // 确保覆盖整个视口宽度
+        width: '100vw', 
         padding: 0,
         margin: 0,
         overflow: 'hidden',
-        backgroundColor: '#f0f0f0' // 设置整个页面的背景颜色为浅灰色
+        backgroundColor: '#f0f0f0' 
       }}
     >
       <Box
         sx={{
-          flex: '1 1 50%', // 图片占左侧50%
+          flex: '1 1 50%', 
           backgroundImage: `url(${homepageGuitar})`,
-          backgroundSize: 'cover', // 确保图片覆盖整个容器
-          backgroundRepeat: 'no-repeat', // 防止重复
-          backgroundPosition: 'center', // 居中显示
+          backgroundSize: 'cover', 
+          backgroundRepeat: 'no-repeat', 
+          backgroundPosition: 'center', 
           height: '100%',
         }}
       />
       <Box
         sx={{
-          flex: '1 1 50%', // 表单占右侧50%
+          flex: '1 1 50%', 
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
           backgroundColor: 'white',
           height: '100%',
-          paddingLeft: '50px', // 添加左填充
+          paddingLeft: '50px', 
         }}
       >
         {location.pathname === '/register' ? <RegisterForm /> : <LoginForm closeModal={closeModal} />}
