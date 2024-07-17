@@ -1,30 +1,25 @@
-// Import necessary libraries and components
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import MainPage from './components/MainPage';
-import LoginSuccess from './components/LoginSuccess'; 
-import ProtectedComponent from './components/ProtectedComponent';
-import { AuthProvider } from './context/AuthContext';
+import SignInAndSignUpPage from './pages/SignInAndSignUpPage';
+import Home from './pages/HomePage';
+import PrivateRoute from './middleware/PrivateRoute';
 
-// Define the main App component
-const App: React.FC = () => {
+function App() {
   return (
-    // Provide authentication context to the entire app
-    <AuthProvider>
-      <Router>
-        <div>
-          <Routes>
-            {/* Define routes for the application */}
-            <Route path="/" element={<MainPage />} />
-            <Route path="/register" element={<MainPage />} />
-            <Route path="/login" element={<MainPage />} />
-            <Route path="/login-success" element={<LoginSuccess />} /> 
-            <Route path="/protected" element={<ProtectedComponent />} />
-          </Routes>
-        </div>
-      </Router>
-    </AuthProvider>
+    <Router>
+      <Routes>
+        <Route path="/" element={<SignInAndSignUpPage />} />
+        <Route
+          path="/home"
+          element={
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+    </Router>
   );
-};
+}
 
 export default App;
